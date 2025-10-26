@@ -1,27 +1,49 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { CreateConcertDto } from './dto';
+import { CreateConcertDto, DeleteConcertDto } from './dto';
 
-@Controller('admin')
+@Controller('concert')
 export class AdminController {
     constructor(private readonly adminService: AdminService) {}
 
-    @Post('concert')
+    @Get()
+    async getConcerts() {
+        try {
+            const result = await this.adminService.getConcerts();
+            return { statusCode: HttpStatus.OK, data: result, message: 'Concerts retrieved successfully' };
+        } catch (error) {
+            return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Error retrieving concerts' };
+        }
+    }
+
+    @Post()
     async createConcert(@Body() createConcertDto: CreateConcertDto) {
-        const result = await this.adminService.createConcert(createConcertDto);
-        return { statusCode: HttpStatus.CREATED, data: result, message: 'Concert created successfully' };
+        try {
+            const result = await this.adminService.createConcert(createConcertDto);
+            return { statusCode: HttpStatus.CREATED, data: result, message: 'Concert created successfully' };
+        } catch (error) {
+            return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Error creating concert' };
+        }
     }
 
-    @Delete('concert/:id')
-    async deleteConcert(@Param('id') id: number) {
-        const result = await this.adminService.deleteConcert(id);
-        return { statusCode: HttpStatus.OK, data: result, message: 'Concert deleted successfully' };
+    @Delete(':id')
+    async deleteConcert(@Param('id') id: number, @Body() deleteConcertDto: DeleteConcertDto) {
+        try {
+            const result = await this.adminService.deleteConcert(id, deleteConcertDto);
+            return { statusCode: HttpStatus.OK, data: result, message: 'Concert deleted successfully' };
+        } catch (error) {
+            return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Error deleting concert' };
+        }
     }
 
-    @Get('concert/history')
+    @Get('history')
     async getConcertHistory() {
-        const result = await this.adminService.getConcertHistory();
-        return { statusCode: HttpStatus.OK, data: result, message: 'Concert history retrieved successfully' };
+        try {
+            const result = await this.adminService.getConcertHistory();
+            return { statusCode: HttpStatus.OK, data: result, message: 'Concert history retrieved successfully' };
+        } catch (error) {
+            return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Error retrieving concert history' };
+        }
     }
 
 }

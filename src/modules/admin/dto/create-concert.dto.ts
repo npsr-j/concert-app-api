@@ -1,5 +1,7 @@
 export class CreateConcertDto {
+    userId: number;
+    userName: string;
     name: string;
     description: string;
-    total_seat: number;
+    totalSeat: number;
 }
