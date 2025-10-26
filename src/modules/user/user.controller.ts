@@ -1,5 +1,6 @@
-import { Controller, Get, HttpStatus, Param, Put } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { UserService } from './user.service';
+import { CreateReservationDto } from './dto';
 
 @Controller('user')
 export class UserController {
@@ -26,7 +27,7 @@ export class UserController {
         }
     }
 
-    @Get('reservations/:userId')
+    @Get(':userId/reservations')
     async getReservations(@Param('userId') userId: number) {
         try {
             const result = await this.userService.getReservations(userId);
@@ -36,10 +37,10 @@ export class UserController {
         }
     }
 
-    @Put('reserve/:concertId')
-    async reserveSeat(@Param('concertId') concertId: number) {
+    @Post('reserve')
+    async reserveSeat(@Body() createConcertDto: CreateReservationDto) {
         try {
-            const result = await this.userService.reserveSeat(concertId);
+            const result = await this.userService.addReservation(createConcertDto);
             return { statusCode: HttpStatus.OK, data: result, message: 'Seat reserved successfully' };
         } catch (error) {
             return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Error reserving seat' };
@@ -49,7 +50,7 @@ export class UserController {
     @Put('cancel/:concertId')
     async cancelReservation(@Param('concertId') concertId: number) {
         try {
-            const result = await this.userService.cancelReservation(concertId);
+            const result = await this.userService.removeReservation(concertId);
             return { statusCode: HttpStatus.OK, data: result, message: 'Reservation cancelled successfully' };
         } catch (error) {
             return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Error cancelling reservation' };
