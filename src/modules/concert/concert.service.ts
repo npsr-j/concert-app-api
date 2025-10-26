@@ -5,7 +5,7 @@ import { CreateConcertDto, DeleteConcertDto } from './dto';
 import { ConcertEntity, ConcertHistoryEntity } from './entities';
 
 @Injectable()
-export class AdminService {
+export class ConcertService {
     constructor(
         @InjectRepository(ConcertEntity)
         private concertsRepository: Repository<ConcertEntity>,

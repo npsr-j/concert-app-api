@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AdminController } from './admin.controller';
-import { AdminService } from './admin.service';
+import { ConcertController } from './concert.controller';
+import { ConcertService } from './concert.service';
 import { ConcertEntity, ConcertHistoryEntity } from './entities';
 
 @Module({
     imports: [TypeOrmModule.forFeature([ConcertEntity, ConcertHistoryEntity])],
-    controllers: [AdminController],
-    providers: [AdminService],
+    controllers: [ConcertController],
+    providers: [ConcertService],
 })
-export class AdminModule {}
+export class ConcertModule {}
