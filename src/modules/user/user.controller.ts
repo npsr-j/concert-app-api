@@ -6,27 +6,53 @@ export class UserController {
 
     constructor(private readonly userService: UserService) {}
 
-    @Get('concerts')
-    async getConcerts() {
-        const result = await this.userService.getConcerts();
-        return { statusCode: HttpStatus.OK, data: result, message: 'Concerts retrieved successfully' };
+    @Get()
+    async getUsers() {
+        try {
+            const result = await this.userService.getUsers();
+            return { statusCode: HttpStatus.OK, data: result, message: 'Users retrieved successfully' };
+        } catch (error) {
+            return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Error retrieving users' };
+        }
+    }
+
+    @Get(':id')
+    async getUserById(@Param('id') id: number) {
+        try {
+            const result = await this.userService.getUserById(id);
+            return { statusCode: HttpStatus.OK, data: result, message: 'User retrieved successfully' };
+        } catch (error) {
+            return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Error retrieving user' };
+        }
     }
 
     @Get('reservations/:userId')
     async getReservations(@Param('userId') userId: number) {
-        const result = await this.userService.getReservations(userId);
-        return { statusCode: HttpStatus.OK, data: result, message: 'Reservations retrieved successfully' };
+        try {
+            const result = await this.userService.getReservations(userId);
+            return { statusCode: HttpStatus.OK, data: result, message: 'Reservations retrieved successfully' };
+        } catch (error) {
+            return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Error retrieving reservations' };
+        }
     }
 
     @Put('reserve/:concertId')
     async reserveSeat(@Param('concertId') concertId: number) {
-        const result = await this.userService.reserveSeat(concertId);
-        return { statusCode: HttpStatus.OK, data: result, message: 'Seat reserved successfully' };
+        try {
+            const result = await this.userService.reserveSeat(concertId);
+            return { statusCode: HttpStatus.OK, data: result, message: 'Seat reserved successfully' };
+        } catch (error) {
+            return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Error reserving seat' };
+        }
     }
 
     @Put('cancel/:concertId')
     async cancelReservation(@Param('concertId') concertId: number) {
-        const result = await this.userService.cancelReservation(concertId);
-        return { statusCode: HttpStatus.OK, data: result, message: 'Reservation cancelled successfully' };
+        try {
+            const result = await this.userService.cancelReservation(concertId);
+            return { statusCode: HttpStatus.OK, data: result, message: 'Reservation cancelled successfully' };
+        } catch (error) {
+            return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Error cancelling reservation' };
+        }
     }
 }

@@ -1,27 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { ConcertReservation } from './interfaces';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ReservationEntity, UserEntity } from './entities';
 
 @Injectable()
 export class UserService {
-    getConcerts() {
-        return [
-            {
-                id: 1,
-                name: 'Concert A',
-                description: 'Description A',
-                total_seat: 100,
-                created_at: new Date(),
-                updated_at: new Date(),
-            },
-            {
-                id: 2,
-                name: 'Concert B',
-                description: 'Description B',
-                total_seat: 150,
-                created_at: new Date(),
-                updated_at: new Date(),
-            },
-        ];
+
+    constructor(
+        @InjectRepository(UserEntity)
+        private usersRepository: Repository<UserEntity>,
+
+        @InjectRepository(ReservationEntity)
+        private reservationRepository: Repository<ReservationEntity>,
+    ) {}
+
+    getUsers() {
+        return this.usersRepository.find();
+    }
+
+    getUserById(id: number) {
+        return this.usersRepository.findOneBy({ id });
     }
 
     reserveSeat(concertId: number) {
@@ -32,30 +30,7 @@ export class UserService {
         return true;
     }
 
-    getReservations(userId: number): ConcertReservation[] {
-        return [
-            {
-                id: 1,
-                name: 'Concert A',
-                description: 'Description A',
-                total_seat: 100,
-                created_at: new Date(),
-                updated_at: new Date(),
-                is_reserved: true,
-                reserved_seats: 1,
-                reserved_at: new Date(),
-            },
-            {
-                id: 2,
-                name: 'Concert B',
-                description: 'Description B',
-                total_seat: 150,
-                created_at: new Date(),
-                updated_at: new Date(),
-                is_reserved: false,
-                reserved_seats: 0,
-                reserved_at: null,
-            },
-        ];
+    getReservations(userId: number) {
+        return this.reservationRepository.findBy({ userId });
     }
 }
