@@ -1,49 +1,29 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateConcertDto, DeleteConcertDto } from './dto';
-import { ConcertEntity, ConcertHistoryEntity } from './entities';
+import { CreateConcertDto } from './dto';
+import { ConcertEntity } from './entities';
 
 @Injectable()
 export class ConcertService {
     constructor(
         @InjectRepository(ConcertEntity)
         private concertsRepository: Repository<ConcertEntity>,
-
-        @InjectRepository(ConcertHistoryEntity)
-        private concertsHistoryRepository: Repository<ConcertHistoryEntity>,
     ) {}
 
     getConcerts() {
         return this.concertsRepository.find();
     }
 
-    createConcert(dto: CreateConcertDto) {
+    async createConcert(dto: CreateConcertDto) {
         const newConcert = this.concertsRepository.create(dto);
-        return this.concertsRepository.save(newConcert).then(() => {
-            return this.createConcertHistoryLog(dto, newConcert.id, 'CREATED');
-        }).then(() => newConcert);
+        await this.concertsRepository.save(newConcert);
+        return newConcert;
     }
 
-    deleteConcert(id: number, deleteConcertDto: DeleteConcertDto) {
-        return this.concertsRepository.delete(id).then(() => {
-            return this.createConcertHistoryLog(deleteConcertDto, id, 'DELETED');
-        });
-    }
-
-    createConcertHistoryLog(dto: CreateConcertDto | DeleteConcertDto, concertId: number, action: string) {
-        const log = this.concertsHistoryRepository.create({
-            userId: dto.userId,
-            userName: dto.userName,
-            concertId: concertId,
-            name: dto.name,
-            actionLog: action,
-            createdAt: new Date(),
-        });
-        return this.concertsHistoryRepository.save(log);
-    }
-
-    getConcertHistory() {
-        return this.concertsHistoryRepository.find();
+    async deleteConcert(id: number) {
+        const concert = await this.concertsRepository.findOneBy({ id });
+        if (!concert) throw new NotFoundException('Concert not found');
+        return this.concertsRepository.delete(id);
     }
 }

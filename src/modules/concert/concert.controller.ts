@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post } from '@nestjs/common';
 import { ConcertService } from './concert.service';
-import { CreateConcertDto, DeleteConcertDto } from './dto';
+import { CreateConcertDto } from './dto';
 
 @Controller('concert')
 export class ConcertController {
@@ -12,7 +12,7 @@ export class ConcertController {
             const result = await this.concertService.getConcerts();
             return { statusCode: HttpStatus.OK, data: result, message: 'Concerts retrieved successfully' };
         } catch (error) {
-            return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Error retrieving concerts' };
+            throw error;
         }
     }
 
@@ -22,28 +22,17 @@ export class ConcertController {
             const result = await this.concertService.createConcert(createConcertDto);
             return { statusCode: HttpStatus.CREATED, data: result, message: 'Concert created successfully' };
         } catch (error) {
-            return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Error creating concert' };
+            throw error;
         }
     }
 
     @Delete(':id')
-    async deleteConcert(@Param('id') id: number, @Body() deleteConcertDto: DeleteConcertDto) {
+    async deleteConcert(@Param('id') id: number) {
         try {
-            const result = await this.concertService.deleteConcert(id, deleteConcertDto);
-            return { statusCode: HttpStatus.OK, data: result, message: 'Concert deleted successfully' };
+            await this.concertService.deleteConcert(id);
+            return { statusCode: HttpStatus.OK, message: 'Concert deleted successfully' };
         } catch (error) {
-            return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Error deleting concert' };
+            throw error;
         }
     }
-
-    @Get('history')
-    async getConcertHistory() {
-        try {
-            const result = await this.concertService.getConcertHistory();
-            return { statusCode: HttpStatus.OK, data: result, message: 'Concert history retrieved successfully' };
-        } catch (error) {
-            return { statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: 'Error retrieving concert history' };
-        }
-    }
-
 }
