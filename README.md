@@ -89,7 +89,19 @@ npm run start:debug
 
 The API will be available at `http://localhost:3000` (or the port specified in your `.env` file).
 
-### 6. (Optional) Seed the Database
+### 6. Access API Documentation
+
+Once the application is running, you can access the interactive Swagger API documentation at:
+
+**🔗 http://localhost:3000/api**
+
+The Swagger UI provides:
+- Complete API endpoint documentation
+- Interactive testing interface
+- Request/response schemas
+- Example payloads for all endpoints
+
+### 7. (Optional) Seed the Database
 
 To populate the database with initial data:
 
@@ -142,10 +154,48 @@ src/
 
 ## API Modules
 
-- **Concert**: Manage concerts and their details
-- **Reservation**: Handle concert reservations and booking history
-- **User**: User account management
-- **Dashboard**: Analytics and reporting
+### Concert Module
+- **GET** `/concert` - Get all concerts
+- **POST** `/concert` - Create a new concert
+- **DELETE** `/concert/:id` - Delete a concert by ID
+
+### Reservation Module
+- **GET** `/reservation/user/:userId` - Get all reservations for a user
+- **POST** `/reservation` - Reserve a seat for a concert
+- **DELETE** `/reservation/:userId/:concertId` - Cancel a reservation
+- **GET** `/reservation/history` - Get all reservation history
+
+### User Module
+- **GET** `/user` - Get all users
+- **GET** `/user/:id` - Get a user by ID
+
+### Dashboard Module
+- **GET** `/dashboard/summary` - Get dashboard summary statistics
+
+## API Documentation
+
+This project includes comprehensive API documentation using Swagger/OpenAPI.
+
+### Accessing Swagger UI
+
+Once the application is running, navigate to:
+
+**http://localhost:3000/api**
+
+The Swagger interface allows you to:
+- Browse all available endpoints
+- View detailed request/response schemas
+- Test API endpoints directly from the browser
+- See example payloads and responses
+- Understand API requirements and validations
+
+### API Tags
+
+Endpoints are organized by the following tags:
+- `concert` - Concert management endpoints
+- `reservation` - Reservation management endpoints
+- `user` - User management endpoints
+- `dashboard` - Dashboard and analytics endpoints
 
 ## Database Management
 
@@ -202,6 +252,7 @@ npm install
 - **Language**: TypeScript
 - **Database**: PostgreSQL
 - **ORM**: TypeORM
+- **API Documentation**: Swagger/OpenAPI (@nestjs/swagger)
 - **Configuration**: @nestjs/config (dotenv)
 - **Testing**: Jest
 
