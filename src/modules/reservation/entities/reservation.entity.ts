@@ -1,19 +1,15 @@
-
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('concert')
-export class ConcertEntity {
+@Entity('reservation')
+export class ReservationEntity {
     @PrimaryGeneratedColumn()
     id: number;
+    
+    @Column()
+    userId: number;
 
     @Column()
-    name: string;
-
-    @Column()
-    description: string;
-
-    @Column()
-    totalSeat: number;
+    concertId: number;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date;

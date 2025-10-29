@@ -1,10 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('reservation')
-export class ReservationEntity {
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ReservationAction } from '../enums';
+
+@Entity('reservation_history')
+export class ReservationHistoryEntity {
     @PrimaryGeneratedColumn()
     id: number;
-    
+
     @Column()
     userId: number;
 
@@ -17,8 +19,8 @@ export class ReservationEntity {
     @Column()
     concertName: string;
 
-    @Column()
-    reservedSeats: number;
+    @Column({ type: 'varchar' })
+    actionLog: ReservationAction;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date;
