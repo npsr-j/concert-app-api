@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConcertModule } from './modules/concert/concert.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { ReservationModule } from './modules/reservation/reservation.module';
 import { UserModule } from './modules/user/user.module';
 
@@ -21,6 +22,7 @@ import { UserModule } from './modules/user/user.module';
       synchronize: true,
     }),
     ConcertModule,
+    DashboardModule,
     ReservationModule,
     UserModule,
   ],
