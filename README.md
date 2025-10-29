@@ -1,98 +1,210 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Concert App API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+A NestJS-based backend API for managing concerts and reservations.
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This application provides REST APIs for a concert reservation system built with [NestJS](https://github.com/nestjs/nest), TypeScript, PostgreSQL, and TypeORM.
 
-## Project setup
+## Features
 
-```bash
-$ npm install
-```
+- Admin can create and delete concerts.
+- Users can view all concerts and reserve or cancel a seat (1 seat per user).
+- Every reservation and cancellation will be recorded in the history log.
 
-## Compile and run the project
+## Prerequisites
 
-```bash
-# development
-$ npm run start
+Before running this application locally, make sure you have the following installed:
 
-# watch mode
-$ npm run start:dev
+- [Node.js](https://nodejs.org/) (v18 or higher recommended)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) (for running PostgreSQL)
+- [Git](https://git-scm.com/)
 
-# production mode
-$ npm run start:prod
-```
+## Local Setup
 
-## Run tests
+### 1. Clone the Repository
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+git clone <your-repository-url>
+cd concert-app-api
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 2. Install Dependencies
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm install
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 3. Environment Configuration
 
-## Resources
+Create a `.env` file in the root directory by copying from the example:
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+cp .env.example .env
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Update the `.env` file with your configuration:
 
-## Support
+```bash
+# Application
+PORT=3000
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Database
+POSTGRES_HOST='localhost'
+POSTGRES_PORT=5432
+POSTGRES_USER='your_postgres_username'
+POSTGRES_PASSWORD='your_postgres_password'
+POSTGRES_DATABASE='concert_app_db'
+```
 
-## Stay in touch
+### 4. Start PostgreSQL Database
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Use Docker Compose to run PostgreSQL:
+
+```bash
+docker-compose up -d
+```
+
+This will start a PostgreSQL container with the configuration from your `.env` file.
+
+To verify the database is running:
+
+```bash
+docker-compose ps
+```
+
+### 5. Run the Application
+
+```bash
+# Development mode with hot-reload
+npm run start:dev
+
+# Production mode
+npm run start:prod
+
+# Debug mode
+npm run start:debug
+```
+
+The API will be available at `http://localhost:3000` (or the port specified in your `.env` file).
+
+### 6. (Optional) Seed the Database
+
+To populate the database with initial data:
+
+```bash
+npm run seed
+```
+
+This will create sample concerts, users, and reservations to help you get started quickly.
+
+## Available Scripts
+
+```bash
+# Development
+npm run start          # Start the application
+npm run start:dev      # Start with hot-reload
+npm run start:debug    # Start in debug mode
+
+# Build
+npm run build          # Build the application
+
+# Database
+npm run seed           # Seed the database with initial data
+
+# Testing
+npm run test           # Run unit tests
+npm run test:watch     # Run tests in watch mode
+npm run test:cov       # Run tests with coverage
+npm run test:e2e       # Run end-to-end tests
+
+# Code Quality
+npm run format         # Format code with Prettier
+npm run lint           # Lint and fix code with ESLint
+```
+
+## Project Structure
+
+```
+src/
+├── modules/
+│   ├── concert/           # Concert management
+│   ├── dashboard/         # Dashboard analytics
+│   ├── reservation/       # Reservation system
+│   └── user/              # User management
+├── seeds/                 # Database seeds
+├── app.module.ts          # Root module
+├── app.controller.ts      # Root controller
+├── app.service.ts         # Root service
+└── main.ts                # Application entry point
+```
+
+## API Modules
+
+- **Concert**: Manage concerts and their details
+- **Reservation**: Handle concert reservations and booking history
+- **User**: User account management
+- **Dashboard**: Analytics and reporting
+
+## Database Management
+
+### Stop the Database
+
+```bash
+docker-compose down
+```
+
+### Stop and Remove Data
+
+```bash
+docker-compose down -v
+```
+
+### View Database Logs
+
+```bash
+docker-compose logs db
+```
+
+### Connect to PostgreSQL
+
+```bash
+docker exec -it <container-name> psql -U postgres -d concert_app_db
+```
+
+## Troubleshooting
+
+### Port Already in Use
+
+If port 3000 or 5432 is already in use:
+1. Change the `PORT` in your `.env` file
+2. Change the `POSTGRES_PORT` in your `.env` file
+3. Restart the services
+
+### Database Connection Issues
+
+1. Ensure Docker is running
+2. Verify PostgreSQL container is up: `docker-compose ps`
+3. Check the logs: `docker-compose logs db`
+4. Verify your `.env` credentials match the database configuration
+
+### Module Not Found Errors
+
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
+
+## Technologies Used
+
+- **Framework**: [NestJS](https://nestjs.com/)
+- **Language**: TypeScript
+- **Database**: PostgreSQL
+- **ORM**: TypeORM
+- **Configuration**: @nestjs/config (dotenv)
+- **Testing**: Jest
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is [MIT licensed](LICENSE).
