@@ -126,10 +126,11 @@ npm run build          # Build the application
 npm run seed           # Seed the database with initial data
 
 # Testing
-npm run test           # Run unit tests
+npm run test           # Run all unit tests
 npm run test:watch     # Run tests in watch mode
-npm run test:cov       # Run tests with coverage
+npm run test:cov       # Run tests with coverage report
 npm run test:e2e       # Run end-to-end tests
+npm test -- <filename> # Run specific test file
 
 # Code Quality
 npm run format         # Format code with Prettier
